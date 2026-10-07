@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Failure Visualization Dashboard</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="dashboard-container">
+        <header>
+            <h1>Test Failure Visualization Dashboard</h1>
+            <p>Real-time insights into automated test execution and failures.</p>
+        </header>
+
+        <section class="stats-grid">
+            <div class="stat-card" id="card-total">
+                <h3>Total Tests</h3>
+                <p class="stat-value" id="stat-total">--</p>
+            </div>
+            <div class="stat-card success" id="card-passed">
+                <h3>Passed</h3>
+                <p class="stat-value" id="stat-passed">--</p>
+            </div>
+            <div class="stat-card danger" id="card-failed">
+                <h3>Failed</h3>
+                <p class="stat-value" id="stat-failed">--</p>
+            </div>
+            <div class="stat-card warning" id="card-skipped">
+                <h3>Skipped</h3>
+                <p class="stat-value" id="stat-skipped">--</p>
+            </div>
+            <div class="stat-card highlight" id="card-percentage">
+                <h3>Pass Percentage</h3>
+                <p class="stat-value" id="stat-percentage">--%</p>
+            </div>
+        </section>
+
+        <section class="charts-section">
+            <div class="chart-container">
+                <h2>Failures by Suite</h2>
+                <canvas id="suiteChart"></canvas>
+            </div>
+            <div class="chart-container">
+                <h2>Failures by Type</h2>
+                <canvas id="errorChart"></canvas>
+            </div>
+        </section>
+
+        <section class="table-section">
+            <div class="table-header">
+                <h2>Recent Failed Tests</h2>
+                <input type="text" id="searchInput" placeholder="Search by test, suite, or error type...">
+            </div>
+            <div class="table-responsive">
+                <table id="failuresTable">
+                    <thead>
+                        <tr>
+                            <th>Test Name</th>
+                            <th>Suite</th>
+                            <th>Error Type</th>
+                            <th>Execution Time</th>
+                        </tr>
+                    </thead>
+                    <tbody id="failuresBody">
+                        <!-- Data will be populated here -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+
+    <script src="/static/js/dashboard.js"></script>
+</body>
+</html>
