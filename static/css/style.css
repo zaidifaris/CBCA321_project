@@ -7,6 +7,7 @@
     --success: #10b981;
     --danger: #ef4444;
     --warning: #f59e0b;
+    --purple: #8b5cf6;
     --border: rgba(255, 255, 255, 0.1);
 }
 
@@ -48,7 +49,9 @@ header p {
     color: var(--text-muted);
 }
 
-/* Stat Cards */
+/* ──────────────────────────────────────────
+   Stat Cards
+────────────────────────────────────────── */
 .stats-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -84,11 +87,13 @@ header p {
 }
 
 .stat-card.success .stat-value { color: var(--success); }
-.stat-card.danger .stat-value { color: var(--danger); }
+.stat-card.danger  .stat-value { color: var(--danger); }
 .stat-card.warning .stat-value { color: var(--warning); }
 .stat-card.highlight .stat-value { color: var(--accent); }
 
-/* Charts */
+/* ──────────────────────────────────────────
+   Charts
+────────────────────────────────────────── */
 .charts-section {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
@@ -105,13 +110,21 @@ header p {
     min-height: 350px;
     display: flex;
     flex-direction: column;
+    cursor: pointer;
 }
 
 .chart-container h2 {
     font-size: 1.25rem;
-    margin-bottom: 1rem;
+    margin-bottom: 0.25rem;
     color: var(--text-muted);
     text-align: center;
+}
+
+.chart-hint {
+    font-size: 0.75rem;
+    color: rgba(148, 163, 184, 0.6);
+    text-align: center;
+    margin-bottom: 1rem;
 }
 
 canvas {
@@ -119,7 +132,239 @@ canvas {
     max-height: 300px;
 }
 
-/* Table */
+/* ──────────────────────────────────────────
+   Failure Analysis Panel
+────────────────────────────────────────── */
+.analysis-section {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 1rem;
+    padding: 1.75rem;
+    backdrop-filter: blur(10px);
+    margin-bottom: 2rem;
+}
+
+.analysis-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.analysis-header h2 {
+    font-size: 1.5rem;
+}
+
+/* Filter bar */
+.filter-bar {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 0.75rem;
+    border: 1px solid var(--border);
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    min-width: 180px;
+}
+
+.filter-search {
+    flex: 1;
+    min-width: 260px;
+}
+
+.filter-group label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.filter-group select,
+.filter-group input[type="text"] {
+    padding: 0.65rem 1rem;
+    border-radius: 0.5rem;
+    border: 1px solid var(--border);
+    background: rgba(15, 23, 42, 0.8);
+    color: var(--text-main);
+    font-family: inherit;
+    font-size: 0.9rem;
+    transition: border-color 0.25s, box-shadow 0.25s;
+    width: 100%;
+}
+
+.filter-group select:focus,
+.filter-group input[type="text"]:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+/* Active filter chips */
+.filter-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    min-height: 0;
+}
+
+.chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.3rem 0.75rem;
+    border-radius: 2rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+    background: rgba(59, 130, 246, 0.2);
+    border: 1px solid rgba(59, 130, 246, 0.4);
+    color: #93c5fd;
+}
+
+.chip button {
+    background: none;
+    border: none;
+    color: inherit;
+    cursor: pointer;
+    font-size: 1rem;
+    line-height: 1;
+    opacity: 0.7;
+    padding: 0;
+}
+
+.chip button:hover { opacity: 1; }
+
+/* Clear filters button */
+.clear-btn {
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    border: 1px solid var(--danger);
+    background: rgba(239, 68, 68, 0.1);
+    color: var(--danger);
+    font-family: inherit;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.clear-btn:hover {
+    background: rgba(239, 68, 68, 0.25);
+}
+
+/* Analysis summary mini-cards */
+.analysis-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.75rem;
+}
+
+.analysis-card {
+    border-radius: 0.75rem;
+    padding: 1rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    border: 1px solid var(--border);
+}
+
+.analysis-card.danger-light  { background: rgba(239, 68, 68, 0.1); }
+.analysis-card.warning-light { background: rgba(245, 158, 11, 0.1); }
+.analysis-card.accent-light  { background: rgba(59, 130, 246, 0.1); }
+
+.analysis-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+}
+
+.analysis-value {
+    font-size: 1.4rem;
+    font-weight: 700;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.analysis-card.danger-light  .analysis-value { color: var(--danger); }
+.analysis-card.warning-light .analysis-value { color: var(--warning); }
+.analysis-card.accent-light  .analysis-value { color: var(--accent); }
+
+/* Breakdown table */
+.breakdown-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    margin-bottom: 0.75rem;
+}
+
+.breakdown-table-wrap {
+    overflow-x: auto;
+}
+
+.breakdown-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+}
+
+.breakdown-table th,
+.breakdown-table td {
+    padding: 0.75rem 1rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+}
+
+.breakdown-table th {
+    color: var(--text-muted);
+    font-weight: 600;
+    background: rgba(0, 0, 0, 0.2);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.breakdown-table tr:hover td {
+    background: rgba(255, 255, 255, 0.04);
+}
+
+/* Percentage bar */
+.pct-bar-wrap {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-width: 120px;
+}
+
+.pct-bar-bg {
+    flex: 1;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.pct-bar-fill {
+    height: 100%;
+    border-radius: 4px;
+    background: linear-gradient(to right, #ef4444, #f59e0b);
+    transition: width 0.5s ease;
+}
+
+/* ──────────────────────────────────────────
+   Failures Table
+────────────────────────────────────────── */
 .table-section {
     background: var(--card-bg);
     border: 1px solid var(--border);
@@ -141,20 +386,11 @@ canvas {
     font-size: 1.5rem;
 }
 
-#searchInput {
-    padding: 0.75rem 1rem;
-    border-radius: 0.5rem;
-    border: 1px solid var(--border);
-    background: rgba(15, 23, 42, 0.8);
-    color: var(--text-main);
-    width: 300px;
-    font-family: inherit;
-    transition: border-color 0.3s;
-}
-
-#searchInput:focus {
-    outline: none;
-    border-color: var(--accent);
+.result-count {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    font-weight: 400;
+    margin-left: 0.5rem;
 }
 
 .table-responsive {
@@ -182,7 +418,33 @@ tr:hover td {
     background: rgba(255, 255, 255, 0.05);
 }
 
+/* Error type column */
 td:nth-child(3) {
     color: var(--danger);
     font-family: monospace;
 }
+
+/* Duration column — subtle */
+td:nth-child(4) {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+/* ──────────────────────────────────────────
+   Active filter highlight on charts
+────────────────────────────────────────── */
+.chart-container.filter-active {
+    border-color: rgba(59, 130, 246, 0.5);
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.15);
+}
+
+/* Suite badge in failures table */
+.suite-tag {
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.08);
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 0.85em;
+    white-space: nowrap;
+}
+

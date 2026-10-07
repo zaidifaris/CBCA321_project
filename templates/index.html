@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Test Failure Visualization Dashboard</title>
+    <meta name="description" content="Real-time automated test failure analysis and visualization dashboard.">
     <link rel="stylesheet" href="/static/css/style.css">
     <!-- Chart.js CDN -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -17,7 +18,8 @@
             <p>Real-time insights into automated test execution and failures.</p>
         </header>
 
-        <section class="stats-grid">
+        <!-- ── Section 1: Top-level stats ── -->
+        <section class="stats-grid" aria-label="Test execution summary">
             <div class="stat-card" id="card-total">
                 <h3>Total Tests</h3>
                 <p class="stat-value" id="stat-total">--</p>
@@ -40,21 +42,89 @@
             </div>
         </section>
 
-        <section class="charts-section">
+        <!-- ── Section 2: Charts ── -->
+        <section class="charts-section" aria-label="Failure charts">
             <div class="chart-container">
                 <h2>Failures by Suite</h2>
+                <p class="chart-hint">Click a bar to filter by suite</p>
                 <canvas id="suiteChart"></canvas>
             </div>
             <div class="chart-container">
                 <h2>Failures by Type</h2>
+                <p class="chart-hint">Click a segment to filter by error type</p>
                 <canvas id="errorChart"></canvas>
             </div>
         </section>
 
-        <section class="table-section">
+        <!-- ── Section 3: Failure Analysis Panel ── -->
+        <section class="analysis-section" id="analysisSection" aria-label="Failure analysis">
+            <div class="analysis-header">
+                <h2>Failure Analysis</h2>
+                <button class="clear-btn" id="clearFiltersBtn" style="display:none" title="Clear all filters">
+                    ✕ Clear Filters
+                </button>
+            </div>
+
+            <!-- Filter bar -->
+            <div class="filter-bar" aria-label="Failure filters">
+                <div class="filter-group">
+                    <label for="suiteFilter">Suite</label>
+                    <select id="suiteFilter">
+                        <option value="">All Suites</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="errorTypeFilter">Error Type</label>
+                    <select id="errorTypeFilter">
+                        <option value="">All Error Types</option>
+                    </select>
+                </div>
+                <div class="filter-group filter-search">
+                    <label for="searchInput">Keyword Search</label>
+                    <input type="text" id="searchInput" placeholder="test name, suite, or error…">
+                </div>
+            </div>
+
+            <!-- Active-filter chips -->
+            <div class="filter-chips" id="filterChips"></div>
+
+            <!-- Analysis summary cards -->
+            <div class="analysis-cards" id="analysisCards">
+                <div class="analysis-card danger-light">
+                    <span class="analysis-label">Total Failures</span>
+                    <span class="analysis-value" id="analysis-total">--</span>
+                </div>
+                <div class="analysis-card warning-light">
+                    <span class="analysis-label">Most Affected Suite</span>
+                    <span class="analysis-value" id="analysis-suite">--</span>
+                </div>
+                <div class="analysis-card accent-light">
+                    <span class="analysis-label">Most Common Error</span>
+                    <span class="analysis-value" id="analysis-error">--</span>
+                </div>
+            </div>
+
+            <!-- Breakdown table -->
+            <div class="breakdown-table-wrap">
+                <h3 class="breakdown-title">Failure Breakdown by Error Type</h3>
+                <table class="breakdown-table" id="breakdownTable" aria-label="Failure breakdown by error type">
+                    <thead>
+                        <tr>
+                            <th>Error Type</th>
+                            <th>Count</th>
+                            <th>Distribution</th>
+                            <th>%</th>
+                        </tr>
+                    </thead>
+                    <tbody id="breakdownBody"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ── Section 4: Failures table ── -->
+        <section class="table-section" aria-label="Recent failed tests">
             <div class="table-header">
-                <h2>Recent Failed Tests</h2>
-                <input type="text" id="searchInput" placeholder="Search by test, suite, or error type...">
+                <h2>Recent Failed Tests <span class="result-count" id="resultCount"></span></h2>
             </div>
             <div class="table-responsive">
                 <table id="failuresTable">
@@ -63,11 +133,12 @@
                             <th>Test Name</th>
                             <th>Suite</th>
                             <th>Error Type</th>
+                            <th>Duration (ms)</th>
                             <th>Execution Time</th>
                         </tr>
                     </thead>
                     <tbody id="failuresBody">
-                        <!-- Data will be populated here -->
+                        <!-- Populated by dashboard.js -->
                     </tbody>
                 </table>
             </div>
